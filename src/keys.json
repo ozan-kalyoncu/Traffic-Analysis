@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "traffic-analysis-379906",
+  "private_key_id": "dcbafc94e1bb83caaef3d1a8b7b33be7bab64ebc",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCgu5gC8ZmhFJak\ngEqaP2aIAQii8au5T3li0b/hxC46NdRG2pDPnVZl4nBHnn4dLvjCemyNI9ZYiw+r\nO8PyhBTmZc9Ab0CXwlckEBEJV0wJ3AvXEBBpHcC1uVjyvInKbRbqeJX4Eke+fYaw\nP94ju+1r4/hqOj+/7yTDP4UjexksACtbN85TRp+uhA6Af2W+MNAbL+pp2/HiCvFw\n+DIr6A1ujlkFQC+Gd56ykdQbjo6tMySxRrhvQ+a95FqGic5D2gOuHUMVZC0SDX6R\n6WHQu9sTPG+iRGmIvz9pgdEfUfEwG82vxZ/Y7iL3qC4Z2nItK0Q1BbnwWGPtjDVQ\nsvf7Tqj9AgMBAAECggEAEnMF80yNEE6/Ldml9oeResn3llB8IBStv7iIuF7e2YKl\nP47F8XbDXIV90tKv8iSanCQWQqsa5uXrYgHFr5gWmA2WmPRMKz885mBLvFE/YqBV\n4ZUv9QjbvmAshAw9GrWj3D0EJcnfX0+kPqXOFzbyfSBZOsQ93geSpjCr1RNDo+eg\nSfhyAE8HbT10OPSncdSygpRH/UzO9/yUXFQtJncd4PRKxjTGRl6EeEDPkDIa7TAA\nWmzDs0hcrCNsumjszYeA29aQn82QgXQRLb6PY4m7UXFtbNJJhj1pJ1FXtKLvXUnS\n3wk0DjERWr0jAzBbwPVFgqzGs1lV6igpnE7bsW4p8QKBgQDfT5o+Z6Mb3khQH20z\nYfFM/uPNTuBQdmetl2dNk85AtPhhroMs6kmo+V6cgpZHXv6mOBsQmpNwFRwqi0GB\ntrnTQFKAE4SibWw8eMO99HEIgpMyIOjtf9P/YkfKc0ijzmBktYmHdukh31iLdeCM\n8GzmN5iYzbmyyhtRJXuVIozCBQKBgQC4QuzfehNRB5bYuPGmNASxzxrEHGbwXOaM\nzIfgGOIHHsE/AjhXDb+0QVDDNeHUraXrNKUGFCfLq1kY1DWXdKE9TE7SPaSFWcI6\n331vpzvEwmxlmkcsUNREAIom3cSpRojioH3olu8WKrjnA+XI8lECQrRCS17+Vqwh\nbRFfiS4kmQKBgEeKtRuxECxpdjlVGCMSCcBlGI456ttcU7Llgo7z/2vzjm+c/SFy\nnc6otYrmu0Z6RJLz/pe/LeUGnlNy8bWg2L+5J7Uoi6GN9NMazXsZyOy1CHtS18ze\n2whCcEWH0YnJIFCjaEAh9GaJq1Bin2IH1JuczCKIJioFXeMNYx5QR1ARAoGABf0W\n2cSL8CxA+NY59F7ocCb9Bbaumc1LKPRUzjHA1t5nBXc7AYlO27rrtwx/RHxIUjap\nzmLFUFdHVAlBnKSLwQRD441hVXwvVd6BoylaRfDTuRGkkool+/fQhabbh2zlcggp\nT2/oYV4OGGQGCdvmSh6E4Uq10apbedKjp+k7eLECgYBJtMICEqlSgWoQabqGlkTq\nSoeqSVU1RvlX/9aKXksQN1DKbkfqN8W1skNvrGuYqZRRqSyiAnpRJr3Mf9ptnmuN\nBpO6ZOQuqbsrxzSCVb6nFWldeLIiOtxHU3DceF6N8hgL1SiYpr4ZxwQOM8caNxRs\n+JKbgiSzFqbXp8WHkeStug==\n-----END PRIVATE KEY-----\n",
+  "client_email": "traffic-data-service-account@traffic-analysis-379906.iam.gserviceaccount.com",
+  "client_id": "102605873530286481047",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/traffic-data-service-account%40traffic-analysis-379906.iam.gserviceaccount.com"
+}
