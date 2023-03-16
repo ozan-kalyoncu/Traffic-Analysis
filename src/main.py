@@ -8,6 +8,11 @@ from googleapiclient.discovery import build
 from google.oauth2 import service_account
 import datetime
 import pandas as pd
+import os.path
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from google_auth_oauthlib.flow import InstalledAppFlow
+from googleapiclient.errors import HttpError
 
 class DataSpreadSheets:
     def __init__(self, origin, destination, spreadsheetId) -> None:
@@ -27,6 +32,8 @@ class DataSpreadSheets:
             "key": self.api_key
         }
 
+        self.creds = None
+
         # Inner Scope Modules
 
         self.datetime = datetime.datetime
@@ -38,7 +45,7 @@ class DataSpreadSheets:
         # Distance Matrix Variables
         self.matrixBaseUrl = f"https://maps.googleapis.com/maps/api/distancematrix/json"
 
-        self.titles = ["Hour", "ID", "Origin Main City", "Origin City", "Distance Forward", "Duration Forward", "Avg Speed Forward", "Dest City", "Distance Backwards", "Duration Backwards", "Avg Speed Backward"]
+        self.titles = [["Hour", "ID", "Origin Main City", "Origin City", "Distance Forward", "Duration Forward", "Avg Speed Forward", "Dest City", "Distance Backwards", "Duration Backwards", "Avg Speed Backward"]]
 
         # Inner Database
         self.db = pd.DataFrame(columns = self.titles)
@@ -58,7 +65,7 @@ class DataSpreadSheets:
     def updateSpreadSheet(self, results, timeline):
 
         day = timeline.date().strftime("%A")
-        range = f"!A1:Z"
+        range = f"{day}!A1:Z"
 
         bodyUpdate = {
             'values': self.titles + results
