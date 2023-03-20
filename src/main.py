@@ -8,11 +8,8 @@ from googleapiclient.discovery import build
 from google.oauth2 import service_account
 import datetime
 import pandas as pd
-import os.path
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.errors import HttpError
+import time
+import sched
 
 class DataSpreadSheets:
     def __init__(self, origin, destination, spreadsheetId) -> None:
@@ -32,12 +29,15 @@ class DataSpreadSheets:
             "key": self.api_key
         }
 
+        # Initial Creds
         self.creds = None
 
-        # Inner Scope Modules
 
+        # Inner Scope Modules
         self.datetime = datetime.datetime
         self.pd = pd
+        self.scheduler = sched.scheduler(time.time, time.sleep)
+        
 
         # Maps API Endpoint    
         self.endpoint = "https://maps.googleapis.com/maps/api/geocode/{0}".format("json")  #Base url
@@ -54,6 +54,13 @@ class DataSpreadSheets:
 
         self.setCreds()
 
+        while True: 
+            print('hello geek!')
+            self.writeSpreadSheet()
+            time.sleep(3600)
+       
+    def writeSpreadSheet(self):
+        print('Runned')
         results, timeline = self.build_distance_matrix()
 
         # Store Inner DataFrame
