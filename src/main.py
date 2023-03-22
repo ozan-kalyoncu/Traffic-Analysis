@@ -10,6 +10,7 @@ import datetime
 import pandas as pd
 import time
 import sched
+import schedule
 
 class DataSpreadSheets:
     def __init__(self, origin, destination, spreadsheetId) -> None:
@@ -54,10 +55,11 @@ class DataSpreadSheets:
 
         self.setCreds()
 
+        schedule.every(60).minutes.do(self.writeSpreadSheet) 
+
         while True: 
-            print('hello geek!')
-            self.writeSpreadSheet()
-            time.sleep(3600)
+            schedule.run_pending()
+            time.sleep(1)
        
     def writeSpreadSheet(self):
         print('Runned')
