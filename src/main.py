@@ -11,6 +11,7 @@ import pandas as pd
 import time
 import sched
 import schedule
+import socket
 
 class DataSpreadSheets:
     def __init__(self, origin, destination, spreadsheetId) -> None:
@@ -55,11 +56,16 @@ class DataSpreadSheets:
 
         self.setCreds()
 
-        schedule.every(60).minutes.do(self.writeSpreadSheet) 
-
-        while True: 
-            schedule.run_pending()
-            time.sleep(1)
+        try:
+            self.writeSpreadSheet()
+            schedule.every(60).minutes.do(self.writeSpreadSheet) 
+            
+            while True:
+                schedule.run_pending()
+                time.sleep(1)
+    
+        except socket.timeout:
+            print('Socket Network Connection Error')        
        
     def writeSpreadSheet(self):
         print('Runned')
@@ -108,7 +114,7 @@ class DataSpreadSheets:
 
         SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
 
-        SERVICE_ACCOUNT_FILE = '/Users/ozankalyoncu/Documents/Projects/Traffic-Analysis/src/keys.json'
+        SERVICE_ACCOUNT_FILE = './keys.json'
 
         self.creds = service_account.Credentials.from_service_account_file( SERVICE_ACCOUNT_FILE, scopes=SCOPES )
 
