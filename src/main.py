@@ -14,7 +14,7 @@ import schedule
 import socket
 
 class DataSpreadSheets:
-    def __init__(self, origin, destination, spreadsheetId) -> None:
+    def __init__(self, origin, destination, spreadsheetId):
 
         # API Key and Sheets ID
         self.api_key = "AIzaSyCJwXP-NsoF55sozWXRHaJYq37uhGG6w40"
@@ -52,7 +52,8 @@ class DataSpreadSheets:
         # Inner Database
         self.db = pd.DataFrame(columns = self.titles)
 
-    def main(self):
+
+    def build(self):
 
         self.setCreds()
 
@@ -66,6 +67,8 @@ class DataSpreadSheets:
 
         except socket.timeout:
             print('Socket Network Connection Error')
+            
+    
 
     def writeSpreadSheet(self):
         print('Runned')
@@ -198,4 +201,4 @@ dest = [2, "YTÜ-Davutpaşa Kampüsü, 34220 Davutpaşa/İstanbul"]
 
 spreadsheet = DataSpreadSheets(origin=address, destination=dest, spreadsheetId="1VbdnVB0V4doRK4TLkeoBKajV9a8N4RcD627I0imiVyU")
 
-spreadsheet.main()
+spreadsheet.build()
