@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*- 
+# -*- coding: utf-8 -*-
 from __future__ import print_function
 
 import requests
 from urllib.parse import urlencode
-from googleapiclient.discovery import build 
+from googleapiclient.discovery import build
 from google.oauth2 import service_account
 import datetime
 import pandas as pd
@@ -15,7 +15,7 @@ import socket
 
 class DataSpreadSheets:
     def __init__(self, origin, destination, spreadsheetId) -> None:
-        
+
         # API Key and Sheets ID
         self.api_key = "AIzaSyCJwXP-NsoF55sozWXRHaJYq37uhGG6w40"
         self.spreadsheetId = spreadsheetId
@@ -39,11 +39,11 @@ class DataSpreadSheets:
         self.datetime = datetime.datetime
         self.pd = pd
         self.scheduler = sched.scheduler(time.time, time.sleep)
-        
 
-        # Maps API Endpoint    
+
+        # Maps API Endpoint
         self.endpoint = "https://maps.googleapis.com/maps/api/geocode/{0}".format("json")  #Base url
-        
+
         # Distance Matrix Variables
         self.matrixBaseUrl = f"https://maps.googleapis.com/maps/api/distancematrix/json"
 
@@ -58,15 +58,15 @@ class DataSpreadSheets:
 
         try:
             self.writeSpreadSheet()
-            schedule.every(60).minutes.do(self.writeSpreadSheet) 
-            
+            schedule.every(60).minutes.do(self.writeSpreadSheet)
+
             while True:
                 schedule.run_pending()
                 time.sleep(1)
-    
+
         except socket.timeout:
-            print('Socket Network Connection Error')        
-       
+            print('Socket Network Connection Error')
+
     def writeSpreadSheet(self):
         print('Runned')
         results, timeline = self.build_distance_matrix()
@@ -124,8 +124,8 @@ class DataSpreadSheets:
 
         now = self.datetime.now()
 
-        hour = f"{now.hour}.{now.minute}"
-        
+        hour = f"{now.hour}:00"
+
         originCords, originCity, mainOriginCity = self.extract_latlong_city_maincity(self.paramsOrigin)
 
         destCords, destCity, mainDestCity = self.extract_latlong_city_maincity(self.paramsDestination)
@@ -133,15 +133,15 @@ class DataSpreadSheets:
         result = []
 
         distOriginDest, durationOriginDest, avgSpeedOriginDest = self.distance_matrix(originCords, destCords)
-        
+
         distDestOrigin, durationDestOrigin, avgSpeedDestOrigin = self.distance_matrix(destCords, originCords)
-        
+
         result.append([hour, 1, mainOriginCity, originCity, distOriginDest, durationOriginDest, avgSpeedOriginDest, destCity, distDestOrigin, durationDestOrigin, avgSpeedDestOrigin])
-        
+
         return result, now
 
     def distance_matrix(self, origin, destination):
-        
+
         self.distMatrixParams = {
             "origins": origin,
             "destinations": destination,
@@ -150,17 +150,17 @@ class DataSpreadSheets:
         }
 
         data = self.getRequest(self.distMatrixParams, self.matrixBaseUrl).json()
-        
+
         distance_meter = data['rows'][0]['elements'][0]['distance'].get("value")
         distance = float(distance_meter/1000) #meter --> km
-        
+
         duration_second = data['rows'][0]['elements'][0]['duration_in_traffic'].get("value")
         duration = int(duration_second/60)  #second --> minutes
-        
-        avg_speed = distance / (duration/60) 
-        
+
+        avg_speed = distance / (duration/60)
+
         return distance, duration, avg_speed
-        
+
 
     def extract_latlong_city_maincity(self, params):
 
@@ -183,9 +183,9 @@ class DataSpreadSheets:
 
 
         return f'{lat},{lng}', city, main_city
-        
+
     def getRequest(self, params, baseUrl):
-        
+
         url_params = urlencode(params)
 
         url = f'{baseUrl}?{url_params}'
