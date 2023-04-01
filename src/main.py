@@ -65,10 +65,12 @@ class DataSpreadSheets:
                 schedule.run_pending()
                 time.sleep(1)
 
-        except socket.timeout:
+        except socket.timeout as e:
             print('Socket Network Connection Error')
+        
+        except requests.exceptions.ConnectionError as e:
+            print('Connection aborted error.')
             
-    
 
     def writeSpreadSheet(self):
         print('Runned')
