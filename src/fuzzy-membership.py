@@ -11,9 +11,9 @@ class Membership:
 
         self.weekendDaysList = ['Saturday', 'Sunday']
 
-    def assign(self):
-
         self.tables = {}
+
+    def assign(self):
 
         for day in self.weekDaysList:
             
@@ -58,3 +58,4 @@ class Membership:
 membership = Membership()
 
 membership.assign()
+print(membership.tables)
