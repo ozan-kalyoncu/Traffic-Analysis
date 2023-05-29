@@ -40,13 +40,13 @@ class Membership:
         max = data.max()
         min = data.min()
 
-        return skfuzzy.membership.smf(data, min, max)
+        return abs(skfuzzy.membership.smf(data, min, max) - 1)
     
     def polynomialModel(self):
         
         for day in self.weekDaysList:
 
-            data = self.tables[f'{day}']
+            data = self.df[self.df["day"] == day]
 
             plt.scatter(data.hour, data.degree)
 
@@ -60,7 +60,14 @@ class Membership:
 
         pass
 
-    def tables(self):
-        return self.tables
-    
 
+membership = Membership()
+
+
+# Saving new data schema
+
+# dataToExcel = pd.ExcelWriter('TrafficAnalysisDataFrame.xlsx')
+
+# membership.df.to_excel(dataToExcel)
+
+# dataToExcel.save()
