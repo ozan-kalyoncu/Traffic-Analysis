@@ -7,13 +7,7 @@ from sklearn import metrics
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot  as plt
-import matplotlib.dates as md
-from matplotlib.ticker import AutoMinorLocator
-from sklearn.metrics import log_loss
-from keras.models import Sequential
-from keras.layers import Dense ,Dropout,BatchNormalization
-from keras.layers import Dense
-from keras.wrappers.scikit_learn import KerasRegressor
+
 
 
 class Analysis: 
@@ -65,7 +59,6 @@ class Analysis:
         self.nn.fit(self.x_train_s,self.y_train)
 
         self.predicts = self.nn.predict(self.x_train_s)
-       
         
     def scores(self):
 
@@ -78,7 +71,6 @@ class Analysis:
         print("Loss")
         print(self.nn.loss_)
         
-
     def visualize(self, saveName = None):
         self.plt = plt
         fig, axes = self.plt.subplots(nrows=1, ncols=1, figsize=(12, 8))
@@ -101,7 +93,6 @@ class Analysis:
         else:
             self.plt.savefig(f'assets/model.png')
                  
-    
     def plotShow(self):
         self.plt.show()
 
@@ -129,13 +120,16 @@ dataAnalysis = Analysis()
 
 
 # Logistic
+
 # print("Logistic Results")
 # dataAnalysis.analyze("logistic", "lbfgs", 0.001)
 # dataAnalysis.scores()
 # dataAnalysis.visualize(saveName="logistic_model")
 # dataAnalysis.plotShow()
 # print("*******************************************")
+
 #Tanh
+
 # print("Tanh Results")
 # dataAnalysis.analyze("tanh", "adam", 0.0001)
 # dataAnalysis.scores()
