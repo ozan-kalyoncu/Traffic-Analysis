@@ -26,9 +26,6 @@ class Analysis:
         self.trafficData = pd.get_dummies(self.shuffled_df, columns=["day"], drop_first=True)
 
         self.scaler = MinMaxScaler()
-
-        self.max_iter = 100
-
     
     def initiate(self):
 
@@ -50,12 +47,11 @@ class Analysis:
         batchSize = None
         if solver == "adam" or solver == "sgd":
             isStopping = True   
-            batchSize = 20
+            batchSize = 100
         else: 
             isStopping = False
             batchSize = None
         
-        print(isStopping)
         return MLPRegressor(hidden_layer_sizes=(100,100,), activation=act, max_iter=self.max_iter, solver=solver, alpha=alpha, max_fun=1500, early_stopping=isStopping, batch_size=batchSize)    
 
     def train(self, act, solver, alpha):
@@ -78,42 +74,51 @@ class Analysis:
         rsq = metrics.r2_score(self.y_train, self.predicts)
 
         print(mae, mse, rsq)
-
         print(self.nn.score(self.x_test_s, self.y_test))
-        
         print("Loss")
         print(self.nn.loss_)
         
 
     def visualize(self, saveName = None):
-        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(16, 8))
+        self.plt = plt
+        fig, axes = self.plt.subplots(nrows=1, ncols=1, figsize=(12, 8))
 
-        plt.xlabel("Hour")
-        plt.ylabel("Membership Degree")
-        plt.ylim(0, 1)
-        plt.xticks(np.arange(min(self.x_train["hour"]), max(self.x_train["hour"])+1, 1.0))
-        plt.title(f"Activation Func:{self.actName.capitalize()}")
+        self.plt.xlabel("Hour")
+        self.plt.ylabel("Membership Degree")
+        self.plt.ylim(-0.5, 1.5)
+        self.plt.xticks(np.arange(min(self.x_train["hour"]), max(self.x_train["hour"])+1, 1.0))
+        self.plt.title(f"Activation Func:{self.actName.capitalize()}, Optimizer: {self.solverName.capitalize()}, Alpha: {self.alphaValue}, Iteration: {self.max_iter}")
 
         axes.plot(self.x_train["hour"], self.y_train, "o", color="blue", label="Train Value", alpha=0.5)
         axes.plot(self.x_train["hour"], self.predicts, "o", color="red", label="Predicted Value", alpha=0.5)
         axes.grid(True)
         axes.legend(loc=4)
 
-        plt.tight_layout()        
+        self.plt.tight_layout()        
 
         if saveName:
-            plt.savefig(f'assets/{saveName}.png')
+            self.plt.savefig(f'assets/{saveName}.png')
         else:
-            plt.savefig(f'assets/model.png')
-
-        self.plt = plt
+            self.plt.savefig(f'assets/model.png')
+                 
     
     def plotShow(self):
         self.plt.show()
 
-        plt.plot(pd.DataFrame(self.nn.loss_curve_))
-        plt.show()
-    def analyze(self, act, solver, alpha):
+        try:
+            plt.title("Loss Curve of Training Set for each iteration")
+            plt.xlabel("Iterations")
+            plt.ylabel("Loss")
+            plt.plot(pd.DataFrame(self.nn.loss_curve_), label="Loss Function")
+
+            self.loss_plt = plt
+
+            self.loss_plt.show()
+        except:
+            print("No loss curve has found")   
+
+    def analyze(self, act, solver, alpha, max_iter=100):
+        self.max_iter = max_iter
         self.train(act, solver, alpha)
         self.actName = act
         self.solverName = solver
@@ -138,7 +143,7 @@ dataAnalysis = Analysis()
 
 # ReLu
 print("ReLU Results")
-dataAnalysis.analyze("relu", "adam", 0.001)
+dataAnalysis.analyze("relu", "adam", 0.001, 500)
 dataAnalysis.scores()
 dataAnalysis.visualize()
 dataAnalysis.plotShow()

@@ -40,7 +40,7 @@ class Membership:
         max = data.max()
         min = data.min()
 
-        return abs(skfuzzy.membership.smf(data, min, max) - 1)
+        return abs(1.0 - skfuzzy.membership.smf(data, min, max))
     
     def polynomialModel(self):
         
