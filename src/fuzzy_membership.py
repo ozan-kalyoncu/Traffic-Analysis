@@ -7,7 +7,7 @@ import numpy as np
 class Membership:
     def __init__(self) -> None:
         
-        self.weekDaysList = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+        self.weekDaysList = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 
         self.weekendDaysList = ['Saturday', 'Sunday']
 

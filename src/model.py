@@ -9,6 +9,11 @@ import numpy as np
 import matplotlib.pyplot  as plt
 import matplotlib.dates as md
 from matplotlib.ticker import AutoMinorLocator
+from sklearn.metrics import log_loss
+from keras.models import Sequential
+from keras.layers import Dense ,Dropout,BatchNormalization
+from keras.layers import Dense
+from keras.wrappers.scikit_learn import KerasRegressor
 
 
 class Analysis: 
@@ -21,6 +26,9 @@ class Analysis:
         self.trafficData = pd.get_dummies(self.shuffled_df, columns=["day"], drop_first=True)
 
         self.scaler = MinMaxScaler()
+
+        self.max_iter = 100
+
     
     def initiate(self):
 
@@ -39,9 +47,16 @@ class Analysis:
 
     def model(self, act, solver, alpha):
         isStopping = False
+        batchSize = None
         if solver == "adam" or solver == "sgd":
             isStopping = True   
-        return MLPRegressor(hidden_layer_sizes=(100,100,), activation=act, max_iter=200, solver=solver, alpha=alpha, max_fun=1500, early_stopping=isStopping)
+            batchSize = 20
+        else: 
+            isStopping = False
+            batchSize = None
+        
+        print(isStopping)
+        return MLPRegressor(hidden_layer_sizes=(100,100,), activation=act, max_iter=self.max_iter, solver=solver, alpha=alpha, max_fun=1500, early_stopping=isStopping, batch_size=batchSize)    
 
     def train(self, act, solver, alpha):
 
@@ -51,10 +66,11 @@ class Analysis:
 
         self.nn = self.model(act, solver, alpha)
 
-        self.nn.fit(self.x_train_s,self. y_train)
+        self.nn.fit(self.x_train_s,self.y_train)
 
         self.predicts = self.nn.predict(self.x_train_s)
-    
+       
+        
     def scores(self):
 
         mae = metrics.mean_absolute_error(self.y_train, self.predicts)
@@ -64,10 +80,13 @@ class Analysis:
         print(mae, mse, rsq)
 
         print(self.nn.score(self.x_test_s, self.y_test))
+        
+        print("Loss")
+        print(self.nn.loss_)
+        
 
     def visualize(self, saveName = None):
-
-        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(12, 8))
+        fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(16, 8))
 
         plt.xlabel("Hour")
         plt.ylabel("Membership Degree")
@@ -78,8 +97,7 @@ class Analysis:
         axes.plot(self.x_train["hour"], self.y_train, "o", color="blue", label="Train Value", alpha=0.5)
         axes.plot(self.x_train["hour"], self.predicts, "o", color="red", label="Predicted Value", alpha=0.5)
         axes.grid(True)
-        
-        axes.legend(loc=[1.05, 0.5])
+        axes.legend(loc=4)
 
         plt.tight_layout()        
 
@@ -93,12 +111,14 @@ class Analysis:
     def plotShow(self):
         self.plt.show()
 
+        plt.plot(pd.DataFrame(self.nn.loss_curve_))
+        plt.show()
     def analyze(self, act, solver, alpha):
         self.train(act, solver, alpha)
         self.actName = act
         self.solverName = solver
         self.alphaValue = alpha
-
+        
 
 dataAnalysis = Analysis()
 
@@ -112,13 +132,13 @@ dataAnalysis = Analysis()
 # print("*******************************************")
 #Tanh
 # print("Tanh Results")
-# dataAnalysis.analyze("tanh", "lbfgs", 0.001)
+# dataAnalysis.analyze("tanh", "adam", 0.0001)
 # dataAnalysis.scores()
 # dataAnalysis.visualize(saveName="tanh_model")
 
 # ReLu
 print("ReLU Results")
-dataAnalysis.analyze("relu", "sgd", 0.001)
+dataAnalysis.analyze("relu", "adam", 0.001)
 dataAnalysis.scores()
-dataAnalysis.visualize(saveName="relu_model")
+dataAnalysis.visualize()
 dataAnalysis.plotShow()
